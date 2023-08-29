@@ -1,0 +1,16 @@
+{
+  "description": "está utilizando un proceso automatizado para borrar millones de antecedentes penales",
+  "language": "English",
+  "nav": {
+    "home": "Inicio",
+    "about": "Acerca de",
+    "contact": "Contacto",
+    "services": "Servicios"
+  },
+  "login": "Iniciar sesión",
+  "signup": "Registrarse",
+  "signout": "Cerrar sesión",
+  "copyright": "Derechos Reservados",
+  "email": "Correo Electrónico",
+  "phone": "Teléfono"
+}

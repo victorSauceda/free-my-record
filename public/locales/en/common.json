@@ -1,0 +1,16 @@
+{
+  "description": "is using an automated process to clear millions of criminal records",
+  "language": "Español",
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "services": "Services"
+  },
+  "login": "Log In",
+  "signup": "Sign Up",
+  "signout": "Sign Out",
+  "copyright": "Copyright",
+  "email": "Email",
+  "phone": "Phone"
+}
