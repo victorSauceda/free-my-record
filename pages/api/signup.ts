@@ -22,6 +22,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         .status(400)
         .json({ message: 'Please fill in all fields correctly.' });
     }
+
     const existingUser = await Users.findOne({ email: email });
     if (existingUser) {
       return res.status(400).json({ message: 'Email already in use' });
@@ -51,7 +52,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       from: fromEmail,
       subject: 'Email Verification',
       text: 'Click the link below to verify your email address',
-      html: `<a href="http://yourdomain.com/verify?token=${verificationToken}">Verify Email</a>`,
+      html: `<a href="${process.env.NEXT_PUBLIC_BASE_URL}/verify?token=${verificationToken}">Verify Email</a>`,
     };
 
     await sgMail.send(msg);

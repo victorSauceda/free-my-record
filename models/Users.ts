@@ -22,4 +22,5 @@ const userSchema: Schema = new mongoose.Schema({
   isVerified: Boolean,
 });
 
-export default mongoose.model<IUser>('Users', userSchema);
+export default mongoose.models.Users ||
+  mongoose.model<IUser>('Users', userSchema);

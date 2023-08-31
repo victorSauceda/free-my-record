@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import Users from '../../models/Users';
+import User from '../../models/Users';
 import { generateToken } from '../../utils/jwt';
 import sgMail from '@sendgrid/mail';
 
@@ -8,7 +8,7 @@ sgMail.setApiKey(process.env.NEXT_PUBLIC_SENDGRID_API_KEY || '');
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { email } = req.body;
 
-  const user = await Users.findOne({ email });
+  const user = await User.findOne({ email });
   if (!user) {
     return res.status(400).json({ message: 'User not found' });
   }
