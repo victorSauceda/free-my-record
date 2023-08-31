@@ -16,13 +16,8 @@ const Verify = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
-          if (data.success) {
-            console.log(data.success, 'succdone');
-            router.push('/dashboard');
-          } else {
-            console.error('Verification failed', data.message);
-          }
+          console.log(data, 'data');
+          router.push('./dashboard');
         })
         .catch((error) => {
           console.error('Verification failed', error);

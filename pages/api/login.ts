@@ -2,8 +2,10 @@ import bcrypt from 'bcrypt';
 import User from '../../models/Users';
 import { generateToken } from '../../utils/jwt';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { connectDB } from '../../utils/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await connectDB();
   try {
     const { username, password } = req.body;
 
