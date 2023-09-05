@@ -68,13 +68,13 @@ export default function LoginPage() {
           Login
         </button>
         <div className="mt-2 text-center">
-          <Link href="/forgot-password">
-            <a className="text-blue-500">Forgot Password?</a>
+          <Link href="/forgot-password" className="text-blue-500">
+            Forgot Password?
           </Link>
         </div>
         <div className="mt-4 text-center">
-          <Link href="/signup">
-            <a className="text-blue-500">Don't have an account? Sign Up</a>
+          <Link className="text-blue-500" href="/signup">
+            Don't have an account? Sign Up
           </Link>
         </div>
       </div>
