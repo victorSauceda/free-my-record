@@ -22,6 +22,8 @@ export default function SignUpPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [isValidPassword, setIsValidPassword] = useState(false);
+  const [passwordBlurred, setPasswordBlurred] = useState(false);
+  const [confirmPasswordBlurred, setConfirmPasswordBlurred] = useState(false);
   useEffect(() => {
     if (password && confirmPassword) {
       setPasswordsMatch(password === confirmPassword);
@@ -49,7 +51,16 @@ export default function SignUpPage() {
       console.error('An error occurred:', error);
     }
   };
-
+  const handleBlur = () => {
+    if (password.length > 0) {
+      setPasswordBlurred(true);
+      setIsValidPassword(validatePassword(password));
+    }
+  };
+  const handleConfirmPasswordBlur = () => {
+    setConfirmPasswordBlurred(!confirmPasswordBlurred);
+    setPasswordsMatch(password === confirmPassword);
+  };
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <div className="p-8 bg-white rounded shadow-md w-96">
@@ -68,10 +79,11 @@ export default function SignUpPage() {
           className="w-full p-2 mb-4 border rounded"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onBlur={handleBlur}
           required
         />
-        {!isValidPassword && password.length > 3 && (
-          <p className="text-red-500">
+        {!isValidPassword && passwordBlurred && !confirmPasswordBlurred && (
+          <p className="text-red-500 mb-4 animate-shake">
             Password must be at least 8 characters long, contain at least one
             number and one symbol.
           </p>
@@ -80,17 +92,33 @@ export default function SignUpPage() {
           type="password"
           placeholder="Confirm Password"
           className="w-full p-2 mb-4 border rounded"
+          disabled={!isValidPassword}
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          onBlur={handleConfirmPasswordBlur}
         />
-        {!passwordsMatch && (
-          <p className="text-red-500">Passwords do not match</p>
+        {!passwordsMatch && confirmPasswordBlurred && (
+          <p className="text-red-500 mb-4 animate-shake">
+            Passwords do not match
+          </p>
         )}
 
         <button
           onClick={handleSignUp}
-          className="w-full p-2 bg-blue-500 text-white rounded"
-          disabled={!passwordsMatch}
+          className={`w-full p-2 rounded ${
+            !passwordsMatch ||
+            !isValidPassword ||
+            email === '' ||
+            confirmPassword === ''
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-blue-500 text-white hover:bg-blue-600'
+          }`}
+          disabled={
+            !passwordsMatch ||
+            !isValidPassword ||
+            email === '' ||
+            confirmPassword === ''
+          }
         >
           Sign Up
         </button>
