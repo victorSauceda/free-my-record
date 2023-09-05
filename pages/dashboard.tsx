@@ -1,9 +1,24 @@
 import React from 'react';
 import Link from 'next/link';
 import { useUser } from '../context/UserContext';
-import { GetStaticPropsContext } from 'next';
+import { GetServerSidePropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-export async function getStaticProps({ locale }: GetStaticPropsContext) {
+import router from 'next/router';
+import { parseCookies } from 'nookies';
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { locale } = context;
+  const cookies = parseCookies(context);
+  const token = cookies.token; // Replace 'token' with the name of your actual token cookie
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
   if (!locale) {
     throw new Error('Locale is undefined');
   }
@@ -16,7 +31,15 @@ export async function getStaticProps({ locale }: GetStaticPropsContext) {
 }
 const Dashboard: React.FC = () => {
   const { user } = useUser();
+  const handleLogout = async () => {
+    const res = await fetch('/api/logout', {
+      method: 'POST',
+    });
 
+    if (res.ok) {
+      router.push('/');
+    }
+  };
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-3/4 md:w-1/2 lg:w-1/3">
@@ -32,9 +55,12 @@ const Dashboard: React.FC = () => {
           <Link className="text-blue-500 hover:underline" href="/settings">
             Account Settings
           </Link>
-          <Link className="text-red-500 hover:underline" href="/logout">
+          <button
+            onClick={handleLogout}
+            className="text-red-500 hover:underline"
+          >
             Logout
-          </Link>
+          </button>
         </div>
       </div>
     </div>
