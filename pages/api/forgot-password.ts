@@ -2,10 +2,12 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import User from '../../models/Users';
 import { generateToken } from '../../utils/jwt';
 import sgMail from '@sendgrid/mail';
+import { connectDB } from '../../utils/db';
 
 sgMail.setApiKey(process.env.NEXT_PUBLIC_SENDGRID_API_KEY || '');
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await connectDB();
   const { email } = req.body;
 
   const user = await User.findOne({ email });

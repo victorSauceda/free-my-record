@@ -2,8 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import User from '../../models/Users';
 import bcrypt from 'bcrypt';
 import { verifyJWT } from '../../utils/jwt';
+import { connectDB } from '../../utils/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await connectDB();
   const { token, newPassword } = req.body;
 
   try {

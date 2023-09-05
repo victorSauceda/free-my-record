@@ -6,10 +6,12 @@ import {
   generateEmailVerificationToken,
   saveTokenToDatabase,
 } from '../../utils/emailVerification';
+import { connectDB } from '../../utils/db';
 
 sgMail.setApiKey(process.env.NEXT_PUBLIC_SENDGRID_API_KEY!);
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await connectDB();
   try {
     if (req.method !== 'POST') {
       return res.status(405).end();

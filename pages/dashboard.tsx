@@ -26,14 +26,14 @@ const Dashboard: React.FC = () => {
           and settings here.
         </p>
         <div className="flex flex-col space-y-4">
-          <Link href="/profile">
-            <a className="text-blue-500 hover:underline">Edit Profile</a>
+          <Link className="text-blue-500 hover:underline" href="/profile">
+            Edit Profile
           </Link>
-          <Link href="/settings">
-            <a className="text-blue-500 hover:underline">Account Settings</a>
+          <Link className="text-blue-500 hover:underline" href="/settings">
+            Account Settings
           </Link>
-          <Link href="/logout">
-            <a className="text-red-500 hover:underline">Logout</a>
+          <Link className="text-red-500 hover:underline" href="/logout">
+            Logout
           </Link>
         </div>
       </div>

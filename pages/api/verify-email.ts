@@ -1,11 +1,9 @@
 import User from '../../models/Users';
-import {
-  verifyEmailToken,
-  removeTokenFromDatabase,
-} from '../../utils/emailVerification';
 import { NextApiRequest, NextApiResponse } from 'next';
+import { connectDB } from '../../utils/db';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
+  await connectDB();
   if (req.method !== 'POST') {
     return res.status(405).end();
   }
@@ -17,21 +15,23 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
-    const email = verifyEmailToken(token);
-
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ emailVerificationToken: token });
     if (!user) {
-      return res.status(400).json({ message: 'User not found' });
+      return res
+        .status(400)
+        .json({ message: 'User not found or token invalid' });
     }
+
+    if (new Date() > user.emailVerificationTokenExpires) {
+      return res.status(400).json({ message: 'Token has expired' });
+    }
+
     user.isVerified = true;
+    user.emailVerificationToken = null;
+    user.emailVerificationTokenExpires = null;
     await user.save();
 
-    await removeTokenFromDatabase(email, token);
-
-    res.writeHead(302, {
-      Location: '/dashboard',
-    });
-    res.end();
+    return res.status(200).json({ success: true });
   } catch (error) {
     return res.status(400).json({ message: 'Invalid or expired token' });
   }
