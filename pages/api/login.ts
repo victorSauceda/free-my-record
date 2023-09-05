@@ -7,15 +7,15 @@ import { connectDB } from '../../utils/db';
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   await connectDB();
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (!username || !password) {
+    if (!email || !password) {
       return res
         .status(400)
-        .json({ message: 'Username and password are required' });
+        .json({ message: 'Email and password are required' });
     }
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
