@@ -4,26 +4,25 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import 'tailwindcss/tailwind.css';
 import { Transition } from '@headlessui/react';
-import { useTranslation, Trans } from 'next-i18next';
+import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const { t, i18n } = useTranslation('common');
+  const { t } = useTranslation('common');
   const changeTo = router.locale === 'en' ? 'es' : 'en';
   const onToggleLanguageClick = (newLocale: string) => {
     const { pathname, asPath, query } = router;
     router.push({ pathname, query }, asPath, { locale: newLocale });
   };
-  // const clientSideLanguageChange = (newLocale: string) => {
-  //   i18n.changeLanguage(newLocale);
-  // };
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       <header className="bg-blue-700 text-white p-6 shadow-md">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-4xl font-extrabold tracking-tight w-1/4">
-            Free My Record
+            <Link href={'/'}>Free My Record</Link>
           </h1>
 
           <div className="md:hidden">
@@ -51,18 +50,18 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </button>
           </div>
           <nav className="hidden md:flex space-x-4 text-lg">
-            <a href="#home" className="hover:text-blue-400">
+            <Link href="/" className="hover:text-blue-400">
               {t('nav.home')}
-            </a>
-            <a href="#about" className="hover:text-blue-400">
+            </Link>
+            <Link href="/about" className="hover:text-blue-400">
               {t('nav.about')}
-            </a>
-            <a href="#services" className="hover:text-blue-400">
+            </Link>
+            <Link href="/services" className="hover:text-blue-400">
               {t('nav.services')}
-            </a>
-            <a href="#contact" className="hover:text-blue-400">
+            </Link>
+            <Link href="/contact" className="hover:text-blue-400">
               {t('nav.contact')}
-            </a>
+            </Link>
           </nav>
           <div className="flex items-center w-1/4 justify-end">
             {changeTo !== 'es' && (
@@ -97,24 +96,24 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <nav className="md:hidden bg-blue-600 p-4">
             <ul className="space-y-4 text-lg">
               <li>
-                <a href="#home" className="hover:text-blue-400">
+                <Link href="/" className="hover:text-blue-400">
                   {t('nav.home')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#about" className="hover:text-blue-400">
+                <Link href="/about" className="hover:text-blue-400">
                   {t('nav.about')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#services" className="hover:text-blue-400">
+                <Link href="/services" className="hover:text-blue-400">
                   {t('nav.services')}
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#contact" className="hover:text-blue-400">
+                <Link href="/contact" className="hover:text-blue-400">
                   {t('nav.contact')}
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
