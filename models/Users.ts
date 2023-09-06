@@ -1,6 +1,8 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 interface IUser extends Document {
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   role: string;
@@ -10,6 +12,8 @@ interface IUser extends Document {
 }
 
 const userSchema: Schema = new mongoose.Schema({
+  firstName: String,
+  lastName: String,
   email: String,
   password: String,
   role: {

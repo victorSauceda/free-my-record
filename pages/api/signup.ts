@@ -17,9 +17,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(405).end();
     }
 
-    const { email, password } = req.body;
+    const { firstName, lastName, email, password } = req.body;
 
-    if (!email || !password) {
+    if (!firstName || !lastName || !email || !password) {
       return res
         .status(400)
         .json({ message: 'Please fill in all fields correctly.' });
@@ -33,6 +33,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = new Users({
+      firstName,
+      lastName,
       email,
       password: hashedPassword,
       role: 'user',
@@ -58,7 +60,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     <div style="font-family: Arial, Helvetica, sans-serif; padding: 20px; background-color: #f4f4f4;">
       <div style="max-width: 600px; margin: auto; background: #fff; padding: 50px; text-align: center; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
         <h1 style="font-size: 24px; margin-bottom: 20px;">Email Verification</h1>
-        <p style="font-size: 16px; margin-bottom: 30px;">Thank you for signing up with Free My Record. Please click the button below to verify your email address and complete your registration.</p>
+        <p style="font-size: 16px; margin-bottom: 30px;">${firstName}, Thank you for signing up with Free My Record. Please click the button below to verify your email address and complete your registration.</p>
         <a href="${process.env.NEXT_PUBLIC_BASE_URL}/verify?token=${verificationToken}" style="background-color: #007bff; color: #fff; text-decoration: none; padding: 15px 30px; margin: 10px 0; display: inline-block; border-radius: 4px;">
           Verify Email
         </a>

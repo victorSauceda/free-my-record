@@ -17,6 +17,8 @@ export async function getStaticProps({ locale }: GetStaticPropsContext) {
 }
 export default function SignUpPage() {
   const router = useRouter();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -37,7 +39,7 @@ export default function SignUpPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ firstName, lastName, email, password }),
       });
 
       const data = await response.json();
@@ -76,6 +78,23 @@ export default function SignUpPage() {
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <div className="p-8 bg-white rounded shadow-md w-96">
         <h1 className="text-2xl font-semibold mb-4">Sign Up</h1>
+        <input
+          type="text"
+          placeholder="First Name"
+          className="w-full p-2 mb-4 border rounded"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+          required
+        />
+
+        <input
+          type="text"
+          placeholder="Last Name"
+          className="w-full p-2 mb-4 border rounded"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+          required
+        />
         <input
           type="email"
           placeholder="Email"
@@ -121,6 +140,8 @@ export default function SignUpPage() {
           className={`w-full p-2 rounded ${
             !passwordsMatch ||
             !isValidPassword ||
+            firstName === '' ||
+            lastName === '' ||
             email === '' ||
             confirmPassword === ''
               ? 'bg-gray-400 cursor-not-allowed'
@@ -129,6 +150,8 @@ export default function SignUpPage() {
           disabled={
             !passwordsMatch ||
             !isValidPassword ||
+            firstName === '' ||
+            lastName === '' ||
             email === '' ||
             confirmPassword === ''
           }
