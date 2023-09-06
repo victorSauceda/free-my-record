@@ -38,7 +38,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     res.json({
       message: 'Login successful',
-      user: { email: user.email, role: userRole },
+      user: {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: userRole,
+      },
     });
   } catch (error) {
     console.error(error);

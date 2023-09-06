@@ -46,8 +46,8 @@ const Dashboard: React.FC = () => {
       <div className="bg-white p-8 rounded-lg shadow-md w-3/4 md:w-1/2 lg:w-1/3">
         <h1 className="text-2xl font-semibold mb-4">Dashboard</h1>
         <p className="text-gray-700 mb-4">
-          Welcome to your dashboard, {user?.email}! You can manage your account
-          and settings here.
+          Welcome to your dashboard, {user?.firstName}! You can manage your
+          account and settings here.
         </p>
         <div className="flex flex-col space-y-4">
           <Link className="text-blue-500 hover:underline" href="/profile">
