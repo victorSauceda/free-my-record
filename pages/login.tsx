@@ -54,11 +54,12 @@ export default function LoginPage() {
   const clearErrorMessage = () => {
     setErrorMessage('');
   };
-  const handleKeyPress = (e: any) => {
-    if (e.keyCode === 13) {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === 'Enter') {
       handleLogin();
     }
   };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <div className="p-8 bg-white rounded shadow-md w-96">

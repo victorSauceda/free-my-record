@@ -46,6 +46,11 @@ export default function ForgotPasswordPage() {
     setEmail(e.target.value);
     setValidEmail(isValidEmail(e.target.value));
   };
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.code === 'Enter' && validEmail) {
+      handleForgotPassword();
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
@@ -57,6 +62,7 @@ export default function ForgotPasswordPage() {
           className="w-full p-2 mb-4 border rounded"
           value={email}
           onChange={handleEmailChange}
+          onKeyDown={handleKeyPress}
           required
         />
         <button
