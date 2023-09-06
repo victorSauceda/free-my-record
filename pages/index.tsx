@@ -24,16 +24,11 @@ const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   const router = useRouter();
-  const { user, setUser } = useUser();
   const { t } = useTranslation('common');
   const handleGoToPage = (route: string) => {
     router.push(route);
   };
 
-  const handleLogout = () => {
-    Cookies.remove('token');
-    setUser(null); // Remove user info
-  };
   return (
     <main
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
