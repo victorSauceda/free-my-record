@@ -20,6 +20,8 @@ export default function ResetPassword() {
   const [isValid, setIsValid] = useState(false);
   const [passwordsMatch, setPasswordsMatch] = useState(true);
   const [isValidToken, setIsValidToken] = useState<boolean | null>(null);
+  const [newPasswordBlurred, setNewPasswordBlurred] = useState(false);
+  const [confirmPasswordBlurred, setConfirmPasswordBlurred] = useState(false);
 
   const router = useRouter();
   const { token } = router.query;
@@ -83,33 +85,49 @@ export default function ResetPassword() {
   };
 
   return (
-    <div>
-      <h1>Reset Password</h1>
-      <input
-        type="password"
-        placeholder="New Password"
-        value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
-      />
-      {!isValid && (
-        <p>
-          Password must be at least 8 characters long, contain a number and a
-          symbol.
-        </p>
-      )}
-      <input
-        type="password"
-        placeholder="Confirm New Password"
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-      />
-      {!passwordsMatch && <p>Passwords do not match.</p>}
-      <button
-        onClick={handleResetPassword}
-        disabled={!isValid || !passwordsMatch}
-      >
-        Reset Password
-      </button>
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+      <div className="p-8 bg-white rounded shadow-md w-96">
+        <h1 className="text-2xl font-semibold mb-4">Reset Password</h1>
+        <input
+          type="password"
+          placeholder="New Password"
+          className="w-full p-2 mb-4 border rounded"
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          onBlur={() => setNewPasswordBlurred(true)}
+        />
+        {!isValid && newPasswordBlurred && (
+          <p className="text-red-500 mb-4 animate-shake">
+            Password must be at least 8 characters long, contain a number and a
+            symbol.
+          </p>
+        )}
+        <input
+          type="password"
+          placeholder="Confirm New Password"
+          className="w-full p-2 mb-4 border rounded"
+          value={confirmPassword}
+          disabled={!isValid}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          onBlur={() => setConfirmPasswordBlurred(true)}
+        />
+        {!passwordsMatch && confirmPasswordBlurred && (
+          <p className="text-red-500 mb-4 animate-shake">
+            Passwords do not match.
+          </p>
+        )}
+        <button
+          onClick={handleResetPassword}
+          className={`w-full p-2 rounded ${
+            !passwordsMatch || !isValid
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-blue-500 text-white hover:bg-blue-600'
+          }`}
+          disabled={!isValid || !passwordsMatch}
+        >
+          Reset Password
+        </button>
+      </div>
     </div>
   );
 }
