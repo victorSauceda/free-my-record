@@ -54,7 +54,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       from: fromEmail,
       subject: 'Email Verification',
       text: 'Click the link below to verify your email address',
-      html: `<a href="${process.env.NEXT_PUBLIC_BASE_URL}/verify?token=${verificationToken}">Verify Email</a>`,
+      html: `
+    <div style="font-family: Arial, Helvetica, sans-serif; padding: 20px; background-color: #f4f4f4;">
+      <div style="max-width: 600px; margin: auto; background: #fff; padding: 50px; text-align: center; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+        <h1 style="font-size: 24px; margin-bottom: 20px;">Email Verification</h1>
+        <p style="font-size: 16px; margin-bottom: 30px;">Thank you for signing up with Free My Record. Please click the button below to verify your email address and complete your registration.</p>
+        <a href="${process.env.NEXT_PUBLIC_BASE_URL}/verify?token=${verificationToken}" style="background-color: #007bff; color: #fff; text-decoration: none; padding: 15px 30px; margin: 10px 0; display: inline-block; border-radius: 4px;">
+          Verify Email
+        </a>
+        <p style="font-size: 14px; margin-top: 30px;">If you did not sign up for a Free My Record account, you can safely ignore this email.</p>
+      </div>
+    </div>
+  `,
     };
 
     await sgMail.send(msg);
