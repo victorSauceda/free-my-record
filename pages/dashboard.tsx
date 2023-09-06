@@ -8,7 +8,7 @@ import { parseCookies } from 'nookies';
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { locale } = context;
   const cookies = parseCookies(context);
-  const token = cookies.token; // Replace 'token' with the name of your actual token cookie
+  const token = cookies.token;
 
   if (!token) {
     return {
@@ -30,13 +30,14 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   };
 }
 const Dashboard: React.FC = () => {
-  const { user } = useUser();
+  const { user, setUser } = useUser();
   const handleLogout = async () => {
     const res = await fetch('/api/logout', {
       method: 'POST',
     });
 
     if (res.ok) {
+      setUser(null);
       router.push('/');
     }
   };

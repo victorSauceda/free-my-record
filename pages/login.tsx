@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
+import { useUser } from '../context/UserContext';
 import Link from 'next/link';
 import { GetStaticPropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
@@ -16,6 +17,7 @@ export async function getStaticProps({ locale }: GetStaticPropsContext) {
 }
 export default function LoginPage() {
   const router = useRouter();
+  const { setUser } = useUser();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -34,10 +36,12 @@ export default function LoginPage() {
       });
 
       if (response.ok) {
+        const data = await response.json();
+        setUser(data.user);
         router.push('/dashboard');
       } else {
         const data = await response.json();
-        setErrorMessage(data.message); // Set the error message
+        setErrorMessage(data.message);
         setPassword('');
       }
     } catch (error) {
@@ -49,7 +53,7 @@ export default function LoginPage() {
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setter(e.target.value);
-      setErrorMessage(''); // Clear the error message when the user starts typing
+      setErrorMessage('');
     };
   const clearErrorMessage = () => {
     setErrorMessage('');

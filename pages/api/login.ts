@@ -36,7 +36,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       `token=${token}; HttpOnly; Path=/; Max-Age=${60 * 60 * 24}`,
     ]);
 
-    res.json({ message: 'Login successful' });
+    res.json({
+      message: 'Login successful',
+      user: { email: user.email, role: userRole },
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
