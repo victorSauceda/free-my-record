@@ -61,6 +61,17 @@ export default function SignUpPage() {
     setConfirmPasswordBlurred(!confirmPasswordBlurred);
     setPasswordsMatch(password === confirmPassword);
   };
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const isDisabled =
+      !passwordsMatch ||
+      !isValidPassword ||
+      email === '' ||
+      confirmPassword === '';
+    if (e.code === 'Enter' && !isDisabled) {
+      handleSignUp();
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
       <div className="p-8 bg-white rounded shadow-md w-96">
@@ -96,6 +107,8 @@ export default function SignUpPage() {
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
           onBlur={handleConfirmPasswordBlur}
+          onKeyDown={handleKeyPress}
+          required
         />
         {!passwordsMatch && confirmPasswordBlurred && (
           <p className="text-red-500 mb-4 animate-shake">
