@@ -62,7 +62,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         <a href="${process.env.NEXT_PUBLIC_BASE_URL}/verify?token=${verificationToken}" style="background-color: #007bff; color: #fff; text-decoration: none; padding: 15px 30px; margin: 10px 0; display: inline-block; border-radius: 4px;">
           Verify Email
         </a>
-        <p style="font-size: 14px; margin-top: 30px;">If you did not sign up for a Free My Record account, you can safely ignore this email.</p>
+        <p style="font-size: 14px; margin-top: 30px;">If you did not sign up for a Your Company Name account, you can safely ignore this email.</p>
       </div>
     </div>
   `,
