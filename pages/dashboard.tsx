@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { useUser } from '../context/UserContext';
 import { GetServerSidePropsContext } from 'next';
@@ -31,6 +31,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 const Dashboard: React.FC = () => {
   const { user, setUser } = useUser();
+  const [showModal, setShowModal] = useState(false);
+  const [deleteInput, setDeleteInput] = useState('');
   const handleLogout = async () => {
     const res = await fetch('/api/logout', {
       method: 'POST',
@@ -39,6 +41,26 @@ const Dashboard: React.FC = () => {
     if (res.ok) {
       setUser(null);
       router.push('/');
+    }
+  };
+  const handleDeleteAccount = async () => {
+    if (deleteInput.toLowerCase() === 'delete') {
+      console.log('user id', user.id);
+      const res = await fetch('/api/delete-account', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: user.id,
+        }),
+      });
+
+      if (res.ok) {
+        setUser(null);
+        alert('User deleted successfully');
+        router.push('/');
+      }
     }
   };
   return (
@@ -107,6 +129,43 @@ const Dashboard: React.FC = () => {
           >
             Logout
           </button>
+          <button
+            onClick={() => setShowModal(true)}
+            className="text-red-500 hover:underline"
+          >
+            Delete Account
+          </button>
+          {showModal && (
+            <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+              <div className="bg-white p-8 rounded-lg shadow-lg w-1/3">
+                <h2 className="text-2xl font-semibold mb-4">
+                  Are you sure you want to delete your account?
+                </h2>
+                <p className="text-gray-700 mb-4">Type "delete" to confirm.</p>
+                <input
+                  type="text"
+                  value={deleteInput}
+                  onChange={(e) => setDeleteInput(e.target.value)}
+                  className="w-full p-2 mb-4 border rounded"
+                  placeholder="Type 'delete' to confirm"
+                />
+                <div className="flex justify-end space-x-4">
+                  <button
+                    onClick={() => setShowModal(false)}
+                    className="px-4 py-2 text-gray-700 border rounded hover:bg-gray-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleDeleteAccount}
+                    className="px-4 py-2 text-white bg-red-500 rounded hover:bg-red-600"
+                  >
+                    OK
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

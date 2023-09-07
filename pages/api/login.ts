@@ -35,10 +35,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     res.setHeader('Set-Cookie', [
       `token=${token}; HttpOnly; Path=/; Max-Age=${60 * 60 * 24}`,
     ]);
-
     res.json({
       message: 'Login successful',
       user: {
+        id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
